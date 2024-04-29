@@ -1,6 +1,16 @@
 import { Admin } from "../../models/admin.js";
 import { BusinessCategory } from "../../models/business-categories.js";
 
+
+export const getAllCategories = async (_, res) => {
+    try {
+        const categories = await BusinessCategory.find({})
+        return res.status(200).json({ status: true, message: "Categories found!", categories })
+    } catch {
+        return res.status(500).json({ status: false, message: "Internal server error." })
+    }
+}
+
 export const AddNewCategory = async (req, res) => {
     try {
         const { name } = req.body; // name must be unique
@@ -22,7 +32,7 @@ export const AddNewCategory = async (req, res) => {
             message: 'New category added successfully.',
             category
         });
-    } catch (error) {
+    } catch {
         res.status(500).json({ status: false, message: "Internal Server Error!" })
     }
 }

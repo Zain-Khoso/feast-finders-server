@@ -19,6 +19,9 @@ app.use(express.json())
 
 
 // routes 
+app.get("/", (_, res) => {
+    res.send("Feast Finders api!")
+})
 app.use("/api/users", userRoutes)
 app.use("/api/admin", adminRoutes)
 

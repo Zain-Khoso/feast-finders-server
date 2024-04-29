@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AddNewCategory } from "../controllers/admin/categories.controller.js";
-import validateAdmin from "../middlewares/validateAdmin.js";
+import { validateAdmin } from "../middlewares/validateAdmin.js";
 
 const router = Router()
 

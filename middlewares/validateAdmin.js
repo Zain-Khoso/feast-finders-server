@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 
-export default validateAdmin = async (req, res, next) => {
+export const validateAdmin = async (req, res, next) => {
     try {
         const { source, token } = req.headers
         if (!source || !token || source.toLowerCase() !== "admin") {
