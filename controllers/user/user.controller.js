@@ -28,7 +28,7 @@ export const checkUserAvailability = async (req, res) => {
         if (phoneUser) errors.phone = "Phone number is in use.";
         if (usernameUser) errors.username = "Username is taken.";
 
-        if (Object.keys(errors).length > 0) {
+        if (Object.keys(errors).some(item => errors[item].length > 0)) {
             return res.status(400).json({ status: false, message: "Email, phone, or username is in use.", errors });
         }
 
