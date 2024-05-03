@@ -13,21 +13,22 @@ const userSchema = new Schema(
         email: {
             type: String,
             required: true,
-            unique: true,
+            unique: [true, "Email is already in use."]
         },
         phone: {
             type: String,
-            unique: true,
             required: true,
+            unique: [true, "Phone number is already in use."]
         },
         username: {
             type: String,
-            unique: true,
             required: true,
+            unique: [true, "Username is already in use."]
         },
         account_type: {
             type: String,
             enum: ['individual', 'business'],
+            required: true
         },
         password: {
             type: String,
