@@ -1,3 +1,4 @@
+import { INTERNAL_SERVER_ERROR, REQUIRED_FIELDS_ERROR } from "../../config/app.config.js";
 import { Business } from "../../models/business.js";
 import { User } from "../../models/user.js";
 import bcryptjs from "bcryptjs"
@@ -7,7 +8,7 @@ export const checkBusinessAvailability = async (req, res) => {
         const { business_name } = req.body;
 
         if (!business_name) {
-            return res.status(400).json({ status: false, message: "Required fields are missing!" })
+            return res.status(400).json(REQUIRED_FIELDS_ERROR)
         }
 
         const business = await Business.findOne({ business_name })
@@ -17,7 +18,7 @@ export const checkBusinessAvailability = async (req, res) => {
 
         return res.status(200).json({ status: true, message: "Business name is available." })
     } catch {
-        return res.status(500).json({ status: false, message: "Internal server error." })
+        return res.status(500).json(INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -41,7 +42,7 @@ export const BusinessSignup = async (req, res) => {
         } = req.body;
 
         if (!country || !city || !email || !phone || !username || !account_type || !password || !business_name || !business_category || !address) {
-            return res.status(400).json({ status: false, message: "Required fields are missing!" })
+            return res.status(400).json(REQUIRED_FIELDS_ERROR)
         }
 
         const salt = await bcryptjs.genSalt(10);
@@ -79,7 +80,7 @@ export const BusinessSignup = async (req, res) => {
         )
 
         return res.status(201).json({ status: true, message: "Business account created successfully!" })
-    } catch (error) {
-        return res.status(500).json({ status: false, message: "Internal server error.", error })
+    } catch {
+        return res.status(500).json(INTERNAL_SERVER_ERROR)
     }
 }

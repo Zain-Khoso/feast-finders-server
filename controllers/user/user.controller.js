@@ -1,3 +1,4 @@
+import { INTERNAL_SERVER_ERROR, REQUIRED_FIELDS_ERROR } from "../../config/app.config.js";
 import { BusinessCategory } from "../../models/business-categories.js";
 import { Business } from "../../models/business.js";
 import { Individual } from "../../models/individual.js";
@@ -15,7 +16,7 @@ export const checkUserAvailability = async (req, res) => {
         }
 
         if (!email || !phone || !username) {
-            return res.status(400).json({ status: false, message: "Required fields are missing!" })
+            return res.status(400).json(REQUIRED_FIELDS_ERROR)
         }
 
         const [emailUser, phoneUser, usernameUser] = await Promise.all([
@@ -34,7 +35,7 @@ export const checkUserAvailability = async (req, res) => {
 
         return res.status(200).json({ status: true, message: "Email, phone, and username are available." })
     } catch {
-        return res.status(500).json({ status: false, message: "Internal server error." })
+        return res.status(500).json(INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -79,8 +80,8 @@ export const userLogin = async (req, res) => {
         const token = jwt.sign(payload, process.env.JWT_SECRET);
 
         return res.status(201).json({ status: true, message: 'Logged in successfully', token });
-    } catch (error) {
-        return res.status(500).json({ status: false, message: "Internal server error." })
+    } catch {
+        return res.status(500).json(INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -113,8 +114,7 @@ export const authenticateUser = async (req, res) => {
         }
 
         res.status(200).json({ status: true, message: "Fetched user details successfully!", user })
-    } catch (error) {
-        return res.status(500).json({ status: false, message: "Internal server error.", error })
+    } catch {
+        return res.status(500).json(INTERNAL_SERVER_ERROR)
     }
-
 }

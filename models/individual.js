@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-export const individualSchema = new Schema({
+const individualSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
         ref: 'user',
@@ -23,7 +23,7 @@ export const individualSchema = new Schema({
     },
     dob: {
         type: String,
-        default: '',
+        required: true
     },
     profilePicture: {
         type: String,

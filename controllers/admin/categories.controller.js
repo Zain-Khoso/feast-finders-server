@@ -1,3 +1,4 @@
+import { ACCESS_DENIED_ERROR, INTERNAL_SERVER_ERROR, REQUIRED_FIELDS_ERROR } from "../../config/app.config.js";
 import { Admin } from "../../models/admin.js";
 import { BusinessCategory } from "../../models/business-categories.js";
 
@@ -7,7 +8,7 @@ export const getAllCategories = async (_, res) => {
         const categories = await BusinessCategory.find({})
         return res.status(200).json({ status: true, message: "Categories found!", categories })
     } catch {
-        return res.status(500).json({ status: false, message: "Internal server error." })
+        return res.status(500).json(INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -17,11 +18,11 @@ export const AddNewCategory = async (req, res) => {
         const admin = await Admin.findById(req.admin._id);
 
         if (!admin) {
-            return res.status(403).json({ status: false, message: "Access denied." })
+            return res.status(403).json(ACCESS_DENIED_ERROR)
         }
 
         if (!name) {
-            return res.status(400).json({ status: false, message: "Required fields are missing!" })
+            return res.status(400).json(REQUIRED_FIELDS_ERROR)
         }
 
         const category = await BusinessCategory.create({ name });
@@ -33,6 +34,6 @@ export const AddNewCategory = async (req, res) => {
             category
         });
     } catch {
-        res.status(500).json({ status: false, message: "Internal Server Error!" })
+        res.status(500).json(INTERNAL_SERVER_ERROR)
     }
 }
