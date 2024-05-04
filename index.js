@@ -6,15 +6,14 @@ import cors from "cors"
 // route imports
 import userRoutes from "./routes/users.js"
 import adminRoutes from "./routes/admin.js"
+import { CORS_CONFIG } from "./config/app.config.js"
 
 // cofiguration
 config()
 const app = express()
 
-app.use(cors({
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    origin: "*"
-}))
+app.options("", cors(CORS_CONFIG))
+app.use(cors(CORS_CONFIG))
 app.use(express.json())
 
 
@@ -25,9 +24,11 @@ app.get("/", (_, res) => {
 app.use("/api/users", userRoutes)
 app.use("/api/admin", adminRoutes)
 
-// server listen
+// server listen and db coonection
+mongoose.connect(process.env.MONGO_URI).then(() => {
+    console.log("server and db connected!")
+})
+
 app.listen(process.env.PORT, () => {
-    mongoose.connect(process.env.MONGO_URI).then(() => {
-        console.log("server and db connected!")
-    })
+    console.log("server connected")
 })
